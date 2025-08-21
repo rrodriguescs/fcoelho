@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Chosen Palette: Energetic & Playful (Greens and Yellows from Logo) -->
+    <!-- Application Structure Plan: The SPA follows a problem-solution narrative. It starts with a strong headline to hook the user (industrial food producer). Section 1 details the "problem": the inefficiencies and hidden costs of using traditional crystal sugar, creating a point of pain. Section 2 presents the "solution": Gyn Foods' Liquid Sugar, directly contrasting the previous points. Section 3 provides quantitative proof ("The Economy in Practice") with a comparative bar chart, appealing to the user's financial interests. Section 4 reinforces the quality aspect with key technical specs presented as large, easy-to-digest stats. Section 5 breaks down the benefits by specific industry (the user's context) with relevant charts. The page concludes with a strong call-to-action. This structure was chosen to guide the user logically from their current challenges to a clear, data-backed solution, making the value proposition compelling and easy to understand. -->
+    <!-- Visualization & Content Choices: 
+        - Comparison Crystal vs. Liquid Sugar: Goal: Compare. Viz: Side-by-side lists with icons (Unicode characters). Justification: Clearly contrasts the pros and cons in a digestible format. Method: HTML/Tailwind.
+        - Operational Costs: Goal: Compare. Viz: Bar Chart. Justification: Best for comparing multiple cost categories between two options. Library: Chart.js.
+        - Key Technical Specs (Brix, pH, Shelf Life): Goal: Inform. Viz: Single Big Number. Justification: Makes key data points stand out and easy to remember. Method: HTML/Tailwind.
+        - Benefits for Ice Cream: Goal: Inform/Compare. Viz: Donut Chart. Justification: Shows the composition of benefits (texture, anti-crystallization) in a simple, visually appealing way. Library: Chart.js.
+        - Benefits for Bakery: Goal: Compare/Rank. Viz: Horizontal Bar Chart. Justification: Effectively shows and compares the impact on different quality attributes. Library: Chart.js.
+        - Benefits for Beverages: Goal: Inform/Compare. Viz: Pie Chart. Justification: Clearly illustrates the proportion of key advantages in the beverage production process. Library: Chart.js.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <title>Infográfico: A Revolução do Açúcar Líquido - Gyn Foods</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <header class="bg-white shadow-md sticky top-0 z-10">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="https://allycamargo.com.br/wp-content/uploads/2025/08/logo-gyn-acucar1.png" alt="Gyn Foods Logo" class="h-12 mr-3" onerror="this.onerror=null;this.src='https://placehold.co/100x50/166534/FBBF24?text=Gyn+Foods';">
+            </div>
+            <a href="#contato" class="bg-yellow-400 hover:bg-yellow-500 text-green-900 font-bold py-2 px-5 rounded-lg transition duration-300 text-sm md:text-base">Solicite uma Cotação</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <section class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-green-800 mb-4">Sua produção, mais eficiente e padronizada.</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">Conheça o Açúcar Líquido Gyn Foods e reduza custos operacionais com uma solução de alta performance e segurança, desenvolvida para a indústria.</p>
+        </section>
+
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-center text-green-800 mb-10">Sua operação ainda usa açúcar em sacos? Calcule o custo que você não vê.</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-red-500 card-hover">
+                    <h3 class="text-2xl font-bold mb-4 text-red-700">O Processo Tradicional</h3>
+                    <p class="text-gray-600 mb-4">A logística da sacaria, o desperdício e o custo com mão de obra são despesas que pesam no seu balanço final.</p>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start">❌ <strong class="ml-2 mr-1">Armazenamento:</strong> Exige grandes áreas secas e seguras.</li>
+                        <li class="flex items-start">❌ <strong class="ml-2 mr-1">Manuseio:</strong> Alto custo com equipe para transporte e diluição.</li>
+                        <li class="flex items-start">❌ <strong class="ml-2 mr-1">Perdas:</strong> Desperdício de até 5% do produto.</li>
+                        <li class="flex items-start">❌ <strong class="ml-2 mr-1">Riscos:</strong> Vulnerável a pragas e contaminação.</li>
+                    </ul>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-green-500 card-hover">
+                    <h3 class="text-2xl font-bold mb-4 text-green-700">A Solução Gyn Foods</h3>
+                    <p class="text-gray-600 mb-4">Uma atualização estratégica para sua linha de produção, que chega pronta, padronizada e segura.</p>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start">✅ <strong class="ml-2 mr-1">Armazenamento:</strong> Sistema fechado que otimiza espaço.</li>
+                        <li class="flex items-start">✅ <strong class="ml-2 mr-1">Manuseio:</strong> Pronto para uso, reduz a necessidade de mão de obra.</li>
+                        <li class="flex items-start">✅ <strong class="ml-2 mr-1">Perdas:</strong> Desperdício zero com sistema lacrado.</li>
+                        <li class="flex items-start">✅ <strong class="ml-2 mr-1">Riscos:</strong> Máxima segurança e higiene garantidas.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-center text-green-800 mb-10">A Economia na Prática</h2>
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <p class="text-center text-gray-600 mb-6">A troca para o Açúcar Líquido representa uma economia real e mensurável em seus custos operacionais. Este gráfico ilustra a redução de custos relativos em áreas críticas da produção.</p>
+                <div class="chart-container">
+                    <canvas id="economiaChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-center text-green-800 mb-10">Qualidade e Padronização que sua Indústria Merece</h2>
+            <p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto">Com especificações técnicas rigorosamente controladas, nosso açúcar líquido garante o mesmo sabor, cor e textura em todos os lotes, elevando a qualidade do seu produto final.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white rounded-lg shadow-lg p-8 card-hover">
+                    <div class="text-5xl font-bold text-yellow-500 mb-2">74-76</div>
+                    <div class="text-xl font-semibold text-green-800">°Brix Corrigido</div>
+                    <p class="text-gray-600 mt-2">Garante o dulçor exato e a consistência ideal para suas receitas.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-8 card-hover">
+                    <div class="text-5xl font-bold text-yellow-500 mb-2">4.5-6.0</div>
+                    <div class="text-xl font-semibold text-green-800">Faixa de pH</div>
+                    <p class="text-gray-600 mt-2">Assegura a estabilidade do seu produto, evitando alterações indesejadas.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-8 card-hover">
+                    <div class="text-5xl font-bold text-yellow-500 mb-2">12</div>
+                    <div class="text-xl font-semibold text-green-800">Meses de Validade</div>
+                    <p class="text-gray-600 mt-2">Flexibilidade e segurança para o seu controle de estoque.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-center text-green-800 mb-10">Aplicações por Setor: Performance Superior</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col card-hover">
+                    <h3 class="text-2xl font-bold text-green-800 mb-3">🍦 Sorvetes, Açaí e Gelados</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">A cremosidade que seu cliente ama. O Açúcar Líquido atua como um "anticongelante" natural, evitando a formação de cristais de gelo para uma textura mais macia e suave.</p>
+                    <div class="chart-container h-64">
+                        <canvas id="sorveteChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col card-hover">
+                    <h3 class="text-2xl font-bold text-green-800 mb-3">🍞 Panificação e Confeitaria</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">Obtenha massas mais úmidas, com fermentação padronizada e um dourado perfeito. Melhora a textura de pães e bolos, e garante caldas com brilho e consistência ideais.</p>
+                     <div class="chart-container h-64">
+                        <canvas id="panificacaoChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col md:col-span-2 lg:col-span-1 card-hover">
+                    <h3 class="text-2xl font-bold text-green-800 mb-3">🥤 Bebidas e Refrigerantes</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">Garanta o dulçor exato em cada garrafa. Nossa solução se dissolve instantaneamente, garantindo uma calda base homogênea e estável para refrigerantes, sucos e xaropes.</p>
+                     <div class="chart-container h-64">
+                        <canvas id="bebidasChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contato" class="text-center bg-green-800 text-white rounded-lg shadow-xl p-12">
+            <h2 class="text-4xl font-bold mb-4">Dê o próximo passo em eficiência.</h2>
+            <p class="text-lg text-green-200 mb-8 max-w-2xl mx-auto">Fale com nossos especialistas e descubra o potencial de economia e qualidade que o Açúcar Líquido Gyn Foods pode trazer para a sua indústria.</p>
+            <a href="mailto:qualidade@gynfoods.com.br" class="bg-yellow-400 hover:bg-yellow-500 text-green-900 font-bold py-3 px-8 rounded-lg text-xl transition duration-300 inline-block">Solicite uma Análise de Economia</a>
+        </section>
+
+    </main>
+
+    <footer class="bg-white mt-12 border-t">
+        <div class="container mx-auto px-6 py-4 text-center text-gray-600">
+            <p>&copy; 2025 Gyn Foods. Todos os direitos reservados.</p>
+            <p class="text-sm">GYN FOODS INDÚSTRIA E COMÉRCIO EIRELI - Aragoiânia/GO</p>
+        </div>
+    </footer>
+
+    <script>
+        const tooltipTitleCallback = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        const wrapLabel = (label) => {
+            const limit = 16;
+            if (label.length > limit) {
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + ' ' + word).trim().length > limit && currentLine.length > 0) {
+                        lines.push(currentLine);
+                        currentLine = word;
+                    } else {
+                        currentLine = (currentLine + ' ' + word).trim();
+                    }
+                }
+                if (currentLine.length > 0) {
+                    lines.push(currentLine);
+                }
+                return lines;
+            }
+            return label;
+        };
+        
+        const colors = {
+            green: '#15803d',
+            yellow: '#facc15',
+            red: '#dc2626',
+            lightGreen: '#4ade80',
+            gray: '#6b7280'
+        };
+
+        new Chart(document.getElementById('economiaChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Mão de Obra', 'Desperdício de Matéria-Prima', 'Logística e Armazenamento', 'Risco de Contaminação'].map(wrapLabel),
+                datasets: [{
+                    label: 'Custo com Açúcar Cristal',
+                    data: [85, 70, 80, 60],
+                    backgroundColor: colors.red,
+                }, {
+                    label: 'Custo com Açúcar Líquido',
+                    data: [15, 5, 20, 10],
+                    backgroundColor: colors.lightGreen,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Custo Operacional Relativo (%)'
+                        }
+                    }
+                },
+                ...tooltipTitleCallback
+            }
+        });
+
+        new Chart(document.getElementById('sorveteChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Melhora na Textura', 'Evita Cristais de Gelo', 'Padronização'],
+                datasets: [{
+                    data: [45, 35, 20],
+                    backgroundColor: [colors.green, colors.yellow, colors.lightGreen],
+                    borderColor: '#ffffff',
+                    borderWidth: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    ...tooltipTitleCallback.plugins
+                }
+            }
+        });
+
+        new Chart(document.getElementById('panificacaoChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Melhora na Fermentação', 'Umidade e Maciez', 'Cor e Brilho (Dourado)'].map(wrapLabel),
+                datasets: [{
+                    label: 'Impacto na Panificação (%)',
+                    data: [75, 85, 90],
+                    backgroundColor: [colors.yellow, colors.green, colors.lightGreen],
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    ...tooltipTitleCallback.plugins
+                }
+            }
+        });
+
+        new Chart(document.getElementById('bebidasChart'), {
+            type: 'pie',
+            data: {
+                labels: ['Padronização do Dulçor', 'Estabilidade da Calda', 'Eficiência no Processo'],
+                datasets: [{
+                    data: [50, 30, 20],
+                    backgroundColor: [colors.green, colors.yellow, colors.lightGreen],
+                    borderColor: '#ffffff',
+                    borderWidth: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                 plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    ...tooltipTitleCallback.plugins
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
